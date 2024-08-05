@@ -1,11 +1,9 @@
-name: THE-WINDOWS-RUNNER
+name:FRP-RDP-WINDOWS-RUNNER
 
-on:
-  push:
-  workflow_dispatch:
-  
+on: [push]
+
 jobs:
-  keep-running:
+  setup-windows-runner:
     runs-on: windows-latest
 
     steps:
@@ -21,20 +19,31 @@ jobs:
       run: |
         New-NetFirewallRule -DisplayName "Allow RDP" -Direction Inbound -LocalPort 3389 -Protocol TCP -Action Allow
 
-    - name: Get Runner IP Address
-      id: get_ip
+    - name: Download frp
       run: |
-        $ip = (ipconfig | Select-String -Pattern 'IPv4 Address').Line -replace '.*: '
-        echo "IP_ADDRESS=$ip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-        $public_ip = Invoke-WebRequest -Uri 'https://api.ipify.org' -UseBasicParsing
-        echo "PUBLIC_IP_ADDRESS=$public_ip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        Invoke-WebRequest -Uri "https://github.com/fatedier/frp/releases/download/v0.37.0/frp_0.37.0_windows_amd64.zip" -OutFile frp.zip
+        Expand-Archive -Path frp.zip -DestinationPath frp
 
-    - name: Display Runner IP Address
+    - name: Configure frp client
       run: |
-        echo "Private IP Address: $env:IP_ADDRESS"
-        echo "Public IP Address: $env:PUBLIC_IP_ADDRESS"
+        Set-Content -Path frp/frpc.ini -Value @"
+        [common]
+        server_addr = vps-ip
+        server_port = 7000
 
-    - name: Keep Runner Active
+        [rdp]
+        type = tcp
+        local_ip = 127.0.0.1
+        local_port = 3389
+        remote_port = 6398
+        "@
+      env:
+        VPS_IP: ${{ secrets.VPS_IP }}
+
+    - name: Run frp client
       run: |
-        echo "Runner is active"
-        Start-Sleep -Seconds 300  # Sleep for 5 minutes to simulate activity
+        Start-Process -FilePath "frp/frpc.exe" -ArgumentList "-c", "frp/frpc.ini"
+
+    - name: Display Runner IP
+      run: |
+        ipconfig
