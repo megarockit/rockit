@@ -1,0 +1,40 @@
+name: RDP-TEST
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Run every 10 minutes to keep the runner active
+
+jobs:
+  keep-running:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Enable RDP
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+
+    - name: Configure Windows Firewall
+      run: |
+        New-NetFirewallRule -DisplayName "Allow RDP" -Direction Inbound -LocalPort 3389 -Protocol TCP -Action Allow
+
+    - name: Get Runner IP Address
+      id: get_ip
+      run: |
+        $ip = (ipconfig | Select-String -Pattern 'IPv4 Address').Line -replace '.*: '
+        echo "IP_ADDRESS=$ip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        $public_ip = Invoke-WebRequest -Uri 'https://api.ipify.org' -UseBasicParsing
+        echo "PUBLIC_IP_ADDRESS=$public_ip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Display Runner IP Address
+      run: |
+        echo "Private IP Address: $env:IP_ADDRESS"
+        echo "Public IP Address: $env:PUBLIC_IP_ADDRESS"
+
+    - name: Keep Runner Active
+      run: |
+        echo "Runner is active"
+        Start-Sleep -Seconds 300  # Sleep for 5 minutes to simulate activity
