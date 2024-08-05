@@ -22,7 +22,7 @@ jobs:
         New-NetFirewallRule -DisplayName "Allow RDP" -Direction Inbound -LocalPort 3389 -Protocol TCP -Action Allow
 
     - name: Get Runner IP Address
-    id: get_ip
+      id: get_ip
       run: |
         $ip = (ipconfig | Select-String -Pattern 'IPv4 Address').Line -replace '.*: '
         echo "IP_ADDRESS=$ip" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
