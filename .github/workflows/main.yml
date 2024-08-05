@@ -15,7 +15,6 @@ jobs:
     - name: one more step
       run: |
         sudo apt-get update -y
-        sudo sshd
         sudo service ssh status
         sudo service ssh start | grep -i "running"
         sudo cat /etc/ssh/sshd_config | grep -i "Port"
