@@ -1,7 +1,9 @@
 name:FRP-RDP-WINDOWS-RUNNER
 
-on: [push]
-
+on:
+  push:
+  workflow_dispatch:
+  
 jobs:
   setup-windows-runner:
     runs-on: windows-latest
