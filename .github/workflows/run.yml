@@ -19,11 +19,10 @@ jobs:
       run: |
         docker run -d -p 5901:5901 -p 6901:6901 jiteshsojitra/docker-ubuntu-xfce-container
         wget https://github.com/fatedier/frp/releases/download/v0.59.0/frp_0.59.0_linux_amd64.tar.gz
-        tar xf frp*
-        rm frp*gz
+        tar xf frp_0.59.0_linux_amd64.tar.gz
+        rm frp_0.59.0_linux_amd64.tar.gz
         cd frp*
         base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdCm5hbWUgPSAic3NoIgp0eXBlID0gInRjcCIKbG9jYWxJUCA9ICIxMjcuMC4wLjEiCmxvY2FsUG9ydCA9IDIyCnJlbW90ZVBvcnQgPSA2MDIyCg== > frpc.toml
-        chmod +x frp?
         ./frpc -c ./frpc.toml
         echo "running"
         
