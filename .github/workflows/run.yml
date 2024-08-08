@@ -22,7 +22,7 @@ jobs:
         tar xf frp_0.59.0_linux_amd64.tar.gz
         rm frp_0.59.0_linux_amd64.tar.gz
         cd frp*
-        base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdCm5hbWUgPSAic3NoIgp0eXBlID0gInRjcCIKbG9jYWxJUCA9ICIxMjcuMC4wLjEiCmxvY2FsUG9ydCA9IDIyCnJlbW90ZVBvcnQgPSA2MDIyCg== > frpc.toml
+        base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdXQpuYW1lID0gInNzaCIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSAyMgpyZW1vdGVQb3J0ID0gNjAyMgo= > frpc.toml
         ./frpc -c ./frpc.toml
         echo "running"
         
