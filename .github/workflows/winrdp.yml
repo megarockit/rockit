@@ -27,9 +27,9 @@ jobs:
         New-NetFirewallRule -Name sshd -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
       shell: powershell
 
-    - name: Add User 'finan' with Password '111600'
+    - name: Add User 'finan' with Complex Password
       run: |
-        $password = ConvertTo-SecureString "111600" -AsPlainText -Force
+        $password = ConvertTo-SecureString "ComplexPassword123!" -AsPlainText -Force
         New-LocalUser -Name "finan" -Password $password -FullName "Finan User" -Description "User account for Finan"
         Add-LocalGroupMember -Group "Users" -Member "finan"
         Add-LocalGroupMember -Group "Administrators" -Member "finan"
@@ -43,7 +43,7 @@ jobs:
 
     - name: Decrypt Base64 string and create frpc.toml
       run: |
-        $base64String = "c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdXQpuYW1lID0gInNzaCIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSAyMgpyZW1vdGVQb3J0ID0gNjAyMgoKCltbcHJveGllc11dCm5hbWUgPSAidm5jIgp0eXBlID0gInRjcCIKbG9jYWxJUCA9ICIxMjcuMC4wLjEiCmxvY2FsUG9ydCA9IDU5MDEKcmVtb3RlUG9ydCA9IDU5MDEKCltbcHJveGllc11dCm5hbWUgPSAibm9WbmMiCnR5cGUgPSAidGNwIgpsb2NhbElQID0gIjEyNy4wLjAuMSIKbG9jYWxQb3J0ID0gNjkwMQpyZW1vdGVQb3J0ID0gNjkwMQoKCltbcmVtb3RlXQp1c2VyID0gImZpbmFuIgpwYXNzd29yZCA9ICIxMTE2MDAiCg=="
+        $base64String = "c2VydmVyQWRkciA9ICIxODUuMTU5LjEyOC4xMTEiCnNlcnZlclBvcnQgPSA3MDAwCgpbW3Byb3hpZXNdXQpuYW1lID0gInNzaCIKdHlwZSA9ICJ0Y3AiCmxvY2FsSVAgPSAiMTI3LjAuMC4xIgpsb2NhbFBvcnQgPSAyMgpyZW1vdGVQb3J0ID0gNjAyMgoKCltbcHJveGllc11dCm5hbWUgPSAidm5jIgp0eXBlID0gInRjcCIKbG9jYWxJUCA9ICIxMjcuMC4wLjEiCmxvY2FsUG9ydCA9IDU5MDEKcmVtb3RlUG9ydCA9IDU5MDEKCltbcHJveGllc11dCm5hbWUgPSAibm9WbmMiCnR5cGUgPSAidGNwIgpsb2NhbElQID0gIjEyNy4wLjAuMSIKbG9jYWxQb3J0ID0gNjkwMQpyZW1vdGVQb3J0ID0gNjkwMQoKCltbcmVtb3RlXQp1c2VyID0gImZpbmFuIgpwYXNzd29yZCA9ICJDb21wbGV4UGFzc3dvcmQxMjMhIgo="
         $decodedString = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($base64String))
         Set-Content -Path frp/frpc.toml -Value $decodedString
       shell: powershell
