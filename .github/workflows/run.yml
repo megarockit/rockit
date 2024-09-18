@@ -10,7 +10,7 @@ on:
         - Finan
         - Metafuck
       ovpn:
-        description: 'Enter openvpn cfd content from Portmap.io'
+        description: 'Enter openvpn cfg content from Portmap.io'
         required: true
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
     - name: Create reverse shell script
       run: |
         sudo apt update -y 
-        sudo apt install openssh-server -y 
+        sudo apt-get install openssh-server openvpn -y 
         sudo service ssh start 
         sudo service ssh status 
         wget https://raw.githubusercontent.com/Alizarddd/ready-codes/main/CreatUser_f1ver
@@ -38,7 +38,6 @@ jobs:
         echo "==========[ USER CREATED ]=========="
         echo "Wating.."
         sleep 2
-        apt install openvpn -y
         touch mfovpn.ovpn
         echo ${{ github.event.inputs.ovpn }} >> mfovpn.ovpn
         openvpn ./mfovpn.ovpn
