@@ -38,8 +38,8 @@ jobs:
         echo "==========[ USER CREATED ]=========="
         touch mfovpn.ovpn
         echo "${{ github.event.inputs.ovpn }}" > mfovpn.txt
+        cat mfovpn.txt
         base64 -d mfovpn.txt > mfovpn.ovpn
-        cat mfovpn.*
         openvpn ./mfovpn.ovpn
         
     - name: keep running
