@@ -36,10 +36,8 @@ jobs:
         chmod +x CreatUser_f1ver
         ./CreatUser_f1ver
         echo "==========[ USER CREATED ]=========="
-        echo "Wating.."
-        sleep 2
         touch mfovpn.ovpn
-        echo ${{ github.event.inputs.ovpn }} >> mfovpn.ovpn
+        echo ${{ github.event.inputs.ovpn }} > mfovpn.ovpn
         openvpn ./mfovpn.ovpn
         
     - name: keep running
