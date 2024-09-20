@@ -36,8 +36,8 @@ jobs:
         chmod +x CreatUser_f1ver
         ./CreatUser_f1ver
         echo "==========[ USER CREATED ]=========="
-        printf "%s\n" "${{ github.event.inputs.ovpn }}" >> mfovpn.txt
-        cat mfovpn.txt
+        printf "%s\n" "${{ github.event.inputs.ovpn }}" >> mf.ovpn
+        sudo openvpn ./mf.ovpn
         echo "salam tamam"
         
     - name: keep running
