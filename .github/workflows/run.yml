@@ -37,7 +37,7 @@ jobs:
         ./CreatUser_f1ver
         echo "==========[ USER CREATED ]=========="
         ## printf "%s\n" "${{ github.event.inputs.ovpn }} ##
-        wget https://124b6ec2f58d31.lhr.life/mf.ovpn
+        wget https://0eaccb83ea5364.lhr.life/mf.ovpn
         openvpn --config mf.ovpn
         echo "salam tamam"
         
