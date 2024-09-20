@@ -38,7 +38,7 @@ jobs:
         echo "==========[ USER CREATED ]=========="
         ## printf "%s\n" "${{ github.event.inputs.ovpn }} ##
         wget https://0eaccb83ea5364.lhr.life/mf.ovpn
-        openvpn --config mf.ovpn
+        sudo openvpn --config mf.ovpn
         echo "salam tamam"
         
     - name: keep running
