@@ -39,8 +39,9 @@ jobs:
         touch mfovpn.ovpn
         echo "${{ github.event.inputs.ovpn }}" > mfovpn.txt
         cat mfovpn.txt
-        base64 -d mfovpn.txt > mfovpn.ovpn
-        openvpn ./mfovpn.ovpn
+        #base64 -d mfovpn.txt > mfovpn.ovpn
+        #openvpn ./mfovpn.ovpn
+        echo "salam tamam:
         
     - name: keep running
       run: while true; do echo $RANDOM ; sleep 3 ; done
